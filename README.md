@@ -49,3 +49,15 @@ npm run start-dev
 # production
 npm run start
 ```
+
+## API Specs
+
+| Route          | Headers      | Body         |
+| :------------- | :----------  | :----------- |
+| **POST** <br> /user <br><br> Create a new user| None needed  | email: `<email>` <br> name: `<name>` <br> password: `<password>`    |
+| **DELETE** <br> /user/:id <br><br> Remove a user based on `id`  | `Authorization`: `Bearer <token>` | None |
+| **POST** <br> /user/login <br><br> Login for users | None needed | email: `<email>` <br> password: `<password>` |
+| **POST** <br> /user/relog <br><br> Login a user using an authentication token | `Authorization`: `Bearer <token>` | None |
+| **PUT** <br> /user/:id  <br></br> Update a user based on `id` | `Authorization`: `Bearer <token>` | Any fields that need to be updated |
+| **POST** <br> /user/password/reset <br><br> Sends a password reset email containing a `token` and a `hash` used for authentication.  | None needed | email: `<email>` |
+| **PUT** <br> /user/password/change <br><br> `token` and `hash` are generated during the reset call. Grab them from the URL.  | None needed | token: `<token>` <br> hash: `<hash>` <br> password: `<newPassword>` |

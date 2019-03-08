@@ -43,6 +43,13 @@ const User = db.define("User", {
       return this.setDataValue("email", sc.encrypt(val));
     },
   },
+  admin: {
+    type: Sequelize.BOOLEAN,
+    set() {
+      // make sure this can't be set through the API (at least for now)
+      return null;
+    }
+  },
   lastLogin: {
     type: Sequelize.DATE,
   },

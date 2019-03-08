@@ -3,6 +3,7 @@ const request = require("request");
 
 const getMailSettings = require("../modules/getMailSettings");
 const verifyToken = require("../modules/verifyToken");
+const verifyOwner = require("../modules/verifyOwner");
 const UserController = require("../controllers/UserController");
 
 module.exports = (app) => {
@@ -87,7 +88,7 @@ module.exports = (app) => {
   /*
   ** Route to remove a user
   */
-  app.delete("/user/:id", verifyToken, (req, res) => {
+  app.delete("/user/:id", verifyOwner, (req, res) => {
     if (req.user.id !== parseInt(req.params.id, 0)) return res.status(401).send("Unauthorised user");
     let user = {};
     return userController.findById(req.params.id)
@@ -146,7 +147,7 @@ module.exports = (app) => {
   /*
   ** Route to update a user
   */
-  app.put("/user/:id", verifyToken, (req, res) => {
+  app.put("/user/:id", verifyOwner, (req, res) => {
     if (!req.body || !req.params.id) return res.status(400).send("Missing fields");
     return userController.update(req.params.id, req.body)
       .then((user) => {
