@@ -45,6 +45,7 @@ const User = db.define("User", {
   },
   admin: {
     type: Sequelize.BOOLEAN,
+    defaultValue: false,
     set() {
       // make sure this can't be set through the API (at least for now)
       return null;
