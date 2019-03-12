@@ -21,24 +21,23 @@ module.exports = (app) => {
     });
   });
 
-  const tokenizeUser = ((user, res) => {
+  const tokenizeUser = ((user) => {
     const userToken = {
       id: user.id,
       email: user.email,
     };
-    jwt.sign(userToken, app.settings.secret, {
+
+    const token = jwt.sign(userToken, app.settings.secret, {
       expiresIn: 2592000 // a month
-    }, (err, token) => {
-      if (err) res.status(400).send(err);
-      const userResponse = {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        icon: user.icon,
-        token,
-      };
-      return res.status(200).send(userResponse);
     });
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      icon: user.icon,
+      token,
+    };
   });
   // --------------------------------------
 
@@ -54,7 +53,7 @@ module.exports = (app) => {
       password: req.body.password,
     };
 
-    return userController.createUser(userObj)
+    return userController.create(userObj)
       .then((newUser) => {
         const user = newUser;
 
@@ -74,7 +73,7 @@ module.exports = (app) => {
           // Send welcome email with Sendgrid
           const welcomeOpt = getMailSettings.welcome(user);
           return request(welcomeOpt, () => {
-            return tokenizeUser(user, res);
+            return res.status(200).send(tokenizeUser(user));
           });
         });
       })
@@ -94,7 +93,7 @@ module.exports = (app) => {
     return userController.findById(req.params.id)
       .then((foundUser) => {
         user = foundUser;
-        return userController.deleteUser(user.id);
+        return userController.delete(user.id);
       })
       // Remove the user's email from Sendgrid
       .then(() => {
@@ -123,7 +122,7 @@ module.exports = (app) => {
         return userController.update(user.id, { lastLogin: new Date() });
       })
       .then(() => {
-        return tokenizeUser(user, res);
+        return res.status(200).send(tokenizeUser(user));
       })
       .catch((error) => {
         if (error.message === "401") return res.status(401).send("The credentials are incorrect");
@@ -151,7 +150,7 @@ module.exports = (app) => {
     if (!req.body || !req.params.id) return res.status(400).send("Missing fields");
     return userController.update(req.params.id, req.body)
       .then((user) => {
-        return tokenizeUser(user, res);
+        return res.status(200).send(tokenizeUser(user));
       })
       .catch((error) => {
         return res.status(400).send(error);

@@ -18,7 +18,7 @@ class UserController {
   }
 
 
-  createUser(user) {
+  create(user) {
     return this.user.findOne({ where: { email: user.email } })
       .then((foundUser) => {
         if (foundUser) return new Promise((resolve, reject) => reject(new Error(409)));
@@ -30,32 +30,6 @@ class UserController {
         });
       })
       .then((newUser) => { return newUser; })
-      .catch((error) => {
-        return new Promise((resolve, reject) => reject(new Error(error.message)));
-      });
-  }
-
-
-  deleteUser(id) {
-    return this.user.destroy({ where: { id } })
-      .then(() => {
-        return true;
-      })
-      .catch((error) => {
-        return new Promise((resolve, reject) => reject(error));
-      });
-  }
-
-
-  login(email, password) {
-    return this.user.findOne({ where: { "email": sc.encrypt(email) } })
-      .then((foundUser) => {
-        if (!foundUser) return new Promise((resolve, reject) => reject(new Error(404)));
-        if (!(foundUser.password === sc.encrypt(password))) {
-          return new Promise((resolve, reject) => reject(new Error(401)));
-        }
-        return foundUser;
-      })
       .catch((error) => {
         return new Promise((resolve, reject) => reject(new Error(error.message)));
       });
@@ -79,6 +53,31 @@ class UserController {
       })
       .catch((error) => {
         return new Promise((resolve, reject) => reject(new Error(error)));
+      });
+  }
+
+  delete(id) {
+    return this.user.destroy({ where: { id } })
+      .then(() => {
+        return true;
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => reject(error));
+      });
+  }
+
+
+  login(email, password) {
+    return this.user.findOne({ where: { "email": sc.encrypt(email) } })
+      .then((foundUser) => {
+        if (!foundUser) return new Promise((resolve, reject) => reject(new Error(404)));
+        if (!(foundUser.password === sc.encrypt(password))) {
+          return new Promise((resolve, reject) => reject(new Error(401)));
+        }
+        return foundUser;
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => reject(new Error(error.message)));
       });
   }
 
