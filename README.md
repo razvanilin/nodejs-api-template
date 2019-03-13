@@ -1,13 +1,12 @@
 # NodeJS API Template
 
-Comes with:
-* NodeJS & ExpressJS
-* Sequelize (supports MySql, PostgreSQL, sqlite3, MsSQL)
-* Token-based user authentication
-* Sengrid starter code
-* ESLint
-* TODO: make SendGrid opt-in
-* TODO: tests
+- [x] NodeJS & ExpressJS
+- [x] Sequelize (supports MySql, PostgreSQL, sqlite3, MsSQL)
+- [x] Token-based user authentication
+- [x] Sengrid starter code
+- [x] ESLint
+- [ ] Make SendGrid opt-in
+- [ ] Tests
 
 ## Get Started
 
