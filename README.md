@@ -1,12 +1,12 @@
 # NodeJS API Template
 
-Comes with:
-* NodeJS & ExpressJS
-* Sequelize (supports MySql, PostgreSQL, sqlite3, MsSQL)
-* Token-based user authentication
-* Sengrid starter code
-* ESLint
-* TODO: tests
+- [x] NodeJS & ExpressJS
+- [x] Sequelize (supports MySql, PostgreSQL, sqlite3, MsSQL)
+- [x] Token-based user authentication
+- [x] Sengrid starter code
+- [x] ESLint
+- [ ] Make SendGrid opt-in
+- [ ] Tests
 
 ## Get Started
 
@@ -30,6 +30,8 @@ The project can be run in `development` and `production` out of the box. Check `
 
 ### Setup Sendgrid
 
+**Note that if this is not set up, API calls will fail - remove SendGrid from `UserRoute` and `UserController` manually if you don't want to use the service**
+
 Create a new account here: https://signup.sendgrid.com/
 
 Create a new API KEY and add it as an environmental variable on your machine: https://app.sendgrid.com/settings/api_keys
@@ -47,7 +49,7 @@ Copy the template IDs into `settings{-dev}.js` files or place them in environmen
 npm run start-dev
 
 # production
-npm run start
+NODE_ENV=production npm run start
 ```
 
 ## API Specs
