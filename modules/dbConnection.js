@@ -10,7 +10,6 @@ const sequelize = new Sequelize(name, username, password, {
   host,
   post: 3306,
   dialect: "mysql",
-  operatorsAliases: false,
   logging: false,
   pool: {
     max: 5,
